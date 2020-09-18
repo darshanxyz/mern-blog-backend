@@ -66,7 +66,8 @@ router.patch('/:postId', async (req, res) => {
           category: req.body.category,
           description: req.body.description,
           createdAt: req.body.createdAt,
-          author: req.body.author
+          author: req.body.author,
+          likes: req.body.likes
         }
       }
     );
