@@ -16,6 +16,12 @@ const PostSchema = mongoose.Schema({
     required: true
   },
 
+  content: {
+    type: Array,
+    default: [],
+    required: true
+  },
+
   imageLink: {
     type: String,
     default: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'
@@ -29,7 +35,13 @@ const PostSchema = mongoose.Schema({
   author: {
     type: String,
     required: true
+  },
+
+  likes: {
+    type: Number,
+    default: 0
   }
+
 });
 
 module.exports = mongoose.model('Posts', PostSchema);

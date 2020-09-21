@@ -11,7 +11,8 @@ router.post('/', async (req, res) => {
     category: req.body.category,
     description: req.body.description,
     createdAt: req.body.createdAt,
-    author: req.body.author
+    author: req.body.author,
+    content: req.body.content
   });
   try {
     const savedPost = await post.save();
@@ -56,18 +57,17 @@ router.delete('/:postId', async (req, res) => {
 // UPDATE request (specific object)
 router.patch('/:postId', async (req, res) => {
   try {
+    const fields = Object.keys(req.body);
+    const patchObject = {}
+    fields.forEach(field => {
+      patchObject[field] = req.body[field]
+    });
     const posts = await Post.updateOne(
       {
         _id: req.params.postId
       },
       {
-        $set: {
-          title: req.body.title,
-          category: req.body.category,
-          description: req.body.description,
-          createdAt: req.body.createdAt,
-          author: req.body.author
-        }
+        $set: patchObject
       }
     );
     res.json(posts);
