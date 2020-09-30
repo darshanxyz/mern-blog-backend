@@ -42,6 +42,21 @@ router.get('/:postId', async (req, res) => {
   }
 });
 
+// GET request (search result)
+router.get('/search/:query', async (req, res) => {
+  try {
+    const query = req.params.query;
+    const posts = await Post.find({
+      $text: {
+        $search: query
+      }
+    });
+    res.json(posts);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
 // DELETE request (specific object)
 router.delete('/:postId', async (req, res) => {
   try {

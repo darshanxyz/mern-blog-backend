@@ -44,4 +44,13 @@ const PostSchema = mongoose.Schema({
 
 });
 
+// Indexing the content, title, description and category field
+PostSchema.index({
+  'content.content': 'text',
+  title: 'text',
+  description: 'text',
+  category: 'text'
+});
+
+// Exporting the schema
 module.exports = mongoose.model('Posts', PostSchema);
