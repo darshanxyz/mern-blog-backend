@@ -40,6 +40,11 @@ const PostSchema = mongoose.Schema({
   likes: {
     type: Number,
     default: 0
+  },
+
+  pageViews: {
+    type: Number,
+    default: 0
   }
 
 });

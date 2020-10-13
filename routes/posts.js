@@ -57,6 +57,24 @@ router.get('/search/:query', async (req, res) => {
   }
 });
 
+// GET request (Post metrics)
+router.post('/metrics', async (req, res) => {
+  try {
+    const posts = await Post.find();
+    const metrics = {
+      totalPosts: posts.length,
+      totalPageViews: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.pageViews || 0), 0),
+      totalLikes: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.likes || 0), 0),
+      totalComments: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.comments || 0), 0),
+    }
+    res.json(metrics);
+  } catch (error) {
+    res.json({
+      message: error
+    });
+  }
+});
+
 // DELETE request (specific object)
 router.delete('/:postId', async (req, res) => {
   try {
