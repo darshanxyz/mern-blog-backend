@@ -60,7 +60,7 @@ router.get('/search/:query', async (req, res) => {
 // GET request (Post metrics)
 router.post('/metrics', async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find({ author: req.body.user.firstName });
     const metrics = {
       totalPosts: posts.length,
       totalPageViews: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.pageViews || 0), 0),
