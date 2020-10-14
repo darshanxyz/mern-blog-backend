@@ -97,6 +97,18 @@ router.patch('/comment/:postId', async (req, res) => {
   }
 });
 
+// Getting all the comments for a post
+router.get('/allComments/:postId', async (req, res) => {
+  try {
+    const comments = await Post.findById(req.params.postId);
+    res.json(comments.comments);
+  } catch (error) {
+    res.json({
+      message: error
+    });
+  }
+});
+
 // Deleting a specific post
 router.delete('/:postId', async (req, res) => {
   try {
