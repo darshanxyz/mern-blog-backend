@@ -65,7 +65,7 @@ router.post('/metrics', async (req, res) => {
       totalPosts: posts.length,
       totalPageViews: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.pageViews || 0), 0),
       totalLikes: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.likes || 0), 0),
-      totalComments: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.comments || 0), 0),
+      totalComments: posts.reduce((firstPost, nextPost) => firstPost + (nextPost.comments.length || 0), 0),
     }
     res.json(metrics);
   } catch (error) {
@@ -90,18 +90,6 @@ router.patch('/comment/:postId', async (req, res) => {
       }
     );
     res.json(post);
-  } catch (error) {
-    res.json({
-      message: error
-    });
-  }
-});
-
-// Getting all the comments for a post
-router.get('/allComments/:postId', async (req, res) => {
-  try {
-    const comments = await Post.findById(req.params.postId);
-    res.json(comments.comments);
   } catch (error) {
     res.json({
       message: error
