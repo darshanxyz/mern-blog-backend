@@ -4,7 +4,7 @@ const Post = require('../models/Post');
 // Router object
 const router = express.Router();
 
-// POST request
+// Adding a new post
 router.post('/', async (req, res) => {
   const post = new Post({
     title: req.body.title,
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET request (all the objects)
+// Getting all the posts
 router.get('/', async (req, res) => {
   try {
     const posts = await Post.find().sort('-createdAt');
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET request (specific object)
+// Getting post based on post id
 router.get('/:postId', async (req, res) => {
   try {
     const posts = await Post.findById(req.params.postId);
@@ -42,7 +42,7 @@ router.get('/:postId', async (req, res) => {
   }
 });
 
-// GET request (search result)
+// Searching posts based on query
 router.get('/search/:query', async (req, res) => {
   try {
     const query = req.params.query;
@@ -57,7 +57,7 @@ router.get('/search/:query', async (req, res) => {
   }
 });
 
-// GET request (Post metrics)
+// Getting the post metrics for a specific user
 router.post('/metrics', async (req, res) => {
   try {
     const posts = await Post.find({ author: req.body.user.firstName });
@@ -75,7 +75,29 @@ router.post('/metrics', async (req, res) => {
   }
 });
 
-// DELETE request (specific object)
+// Adding comments to a post
+router.patch('/comment/:postId', async (req, res) => {
+  try {
+    const comment = req.body;
+    const post = await Post.updateOne(
+      {
+        _id: req.params.postId
+      },
+      {
+        $push: {
+          comments: comment
+        }
+      }
+    );
+    res.json(post);
+  } catch (error) {
+    res.json({
+      message: error
+    });
+  }
+});
+
+// Deleting a specific post
 router.delete('/:postId', async (req, res) => {
   try {
     const posts = await Post.deleteOne({
@@ -87,7 +109,7 @@ router.delete('/:postId', async (req, res) => {
   }
 });
 
-// UPDATE request (specific object)
+// Updating a specific post
 router.patch('/:postId', async (req, res) => {
   try {
     const fields = Object.keys(req.body);

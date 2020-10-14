@@ -45,6 +45,11 @@ const PostSchema = mongoose.Schema({
   pageViews: {
     type: Number,
     default: 0
+  },
+
+  comments: {
+    type: Array,
+    default: []
   }
 
 });
