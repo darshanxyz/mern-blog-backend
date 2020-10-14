@@ -40,8 +40,27 @@ const PostSchema = mongoose.Schema({
   likes: {
     type: Number,
     default: 0
+  },
+
+  pageViews: {
+    type: Number,
+    default: 0
+  },
+
+  comments: {
+    type: Array,
+    default: []
   }
 
 });
 
+// Indexing the content, title, description and category field
+PostSchema.index({
+  'content.content': 'text',
+  title: 'text',
+  description: 'text',
+  category: 'text'
+});
+
+// Exporting the schema
 module.exports = mongoose.model('Posts', PostSchema);
